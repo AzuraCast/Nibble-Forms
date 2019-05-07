@@ -60,16 +60,32 @@ final class File extends AbstractField
         } else if (isset($this->mime_types[$this->options['type']])) {
             $this->options['mime_types'] = $this->mime_types[$this->options['type']];
         }
+
+        $this->options['button_text'] = $this->attributes['button_text'] ?? __('Select File');
+        $this->options['button_icon'] = $this->attributes['button_icon'] ?? null;
     }
 
     public function getField($form_name): ?string
     {
         list($attribute_string, $class) = $this->_attributeString();
 
-        return sprintf('<input type="file" name="%1$s" id="%2$s_%1$s" class="%3$s"/>',
+        $button_text = $this->options['button_text'];
+
+        if ($this->options['button_icon'] !== null) {
+            $button_text .= sprintf(' <i class="material-icons" aria-hidden="true">%1$s</i>', $this->options['button_icon']);
+        }
+
+        $output = '<button name="%1$s_button" id="%2$s_%1$s_button" class="file-upload btn btn-primary btn-block text-center %3$s" type="button">';
+        $output .= '%4$s';
+        $output .= '</button>';
+        $output .= '<small class="file-name"></small>';
+        $output .= '<input type="file" name="%1$s" id="%2$s_%1$s" style="visibility: hidden; position: absolute;">';
+
+        return sprintf($output,
             $this->getFullName(),
             $form_name,
-            $class
+            $class,
+            $button_text
         );
     }
 
