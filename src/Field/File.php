@@ -61,7 +61,7 @@ final class File extends AbstractField
             $this->options['mime_types'] = $this->mime_types[$this->options['type']];
         }
 
-        $this->options['button_text'] = $this->attributes['button_text'] ?? __('Select File');
+        $this->options['button_text'] = $this->attributes['button_text'] ?? 'Select File';
         $this->options['button_icon'] = $this->attributes['button_icon'] ?? null;
     }
 
